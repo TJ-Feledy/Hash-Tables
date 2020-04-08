@@ -50,12 +50,25 @@ class HashTable:
         # Part 1: Hash collisions should be handled with an error warning. (Think about and
         # investigate the impact this will have on the tests)
 
+
         # Part 2: Change this so that hash collisions are handled with Linked List Chaining.
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        node = LinkedPair(key, value)
 
+        # if self.storage[index] is not None:
+        #     print('Error:  The space at this index is already occupied!')
+
+        if self.storage[index] is not None:
+            head = self.storage[index]
+
+            while head:
+                if head.next is None:
+                    head.next = node
+        else:
+            self.storage[index] = node
 
 
     def remove(self, key):
