@@ -32,7 +32,13 @@ class HashTable:
 
         OPTIONAL STRETCH: Research and implement DJB2
         '''
-        pass
+        hash = 5381
+        byte_array = key.encode('utf-8')
+
+        for byte in byte_array:
+            hash = ((hash * 33) ^ byte) % 0x100000000
+
+        return hash
 
 
     def _hash_mod(self, key):
@@ -67,10 +73,8 @@ class HashTable:
         # if the hashed index is occupied, add the node to the end of the Linked List
         # else add the node at the hashed index
         curr_node = self.storage[index]
-        prev_node = curr_node
 
         while curr_node is not None and curr_node.key != key:
-            prev_node = curr_node
             curr_node = curr_node.next
         # set the previous node's next node to point to the newly created node
         if curr_node is not None:
@@ -158,7 +162,7 @@ class HashTable:
 
         # iterate through storage to copy it to new storage
         # for each index in storage
-        # new storage at that index equals storage at the index
+        # at that index insert the current item
         for item in temp_storage:
             curr_item = item
             while curr_item is not None:
