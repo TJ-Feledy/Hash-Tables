@@ -121,7 +121,23 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # Hash the key to create an index
+        # create a current node
+        index = self._hash_mod(key)
+        curr_node = self.storage[index]
+
+        # iterate through linked list to find the given key
+        # while current node is not None and current node's key is not equal to given key
+        # current node = the next node
+        while curr_node is not None and curr_node.key != key:
+            curr_node = curr_node.next
+
+        # if current node is None, return None
+        # else return current node's value
+        if curr_node is None:
+            return None
+        else:
+            return curr_node.value
 
 
     def resize(self):
