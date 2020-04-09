@@ -147,8 +147,19 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # double the capacity
+        # create new storage
+        self.capacity *= 2
+        new_storage = [None] * self.capacity
 
+        # iterate through storage to copy it to new storage
+        # for each index in storage
+        # new storage at that index equals storage at the index
+        for i in range(len(self.storage)):
+            new_storage[i] = self.storage[i]
+
+        # overwrite storage with the new storage
+        self.storage = new_storage
 
 
 if __name__ == "__main__":
