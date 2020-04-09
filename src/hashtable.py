@@ -112,7 +112,7 @@ class HashTable:
             if prev_node is None:
                 curr_node = None
             else:
-                prev_node.next = curr_node.next
+                prev_node.next = prev_node.next.next
 
 
     def retrieve(self, key):
@@ -151,17 +151,18 @@ class HashTable:
         '''
         # double the capacity
         # create new storage
+        temp_storage = self.storage
         self.capacity *= 2
-        new_storage = [None] * self.capacity
+        self.storage = [None] * self.capacity
 
         # iterate through storage to copy it to new storage
         # for each index in storage
         # new storage at that index equals storage at the index
-        for i in range(len(self.storage)):
-            new_storage[i] = self.storage[i]
-
-        # overwrite storage with the new storage
-        self.storage = new_storage
+        for item in temp_storage:
+            curr_item = item
+            while curr_item is not None:
+                self.insert(curr_item.key, curr_item.value)
+                curr_item = curr_item.next
 
 
 if __name__ == "__main__":
