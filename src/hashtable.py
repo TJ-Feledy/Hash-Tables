@@ -66,17 +66,18 @@ class HashTable:
         # ********Part 2********
         # if the hashed index is occupied, add the node to the end of the Linked List
         # else add the node at the hashed index
-        if self.storage[index] is not None:
-            head = self.storage[index]
-            prev_node = head
+        curr_node = self.storage[index]
+        prev_node = curr_node
 
-            while head is not None:
-                prev_node = head
-                head = head.next
-            # set the previous node's next node to point to the newly created node
-            prev_node.next = node
+        while curr_node is not None and curr_node.key != key:
+            prev_node = curr_node
+            curr_node = curr_node.next
+        # set the previous node's next node to point to the newly created node
+        if curr_node is not None:
+            curr_node.value = value
 
         else:
+            node.next = self.storage[index]
             self.storage[index] = node
 
 
