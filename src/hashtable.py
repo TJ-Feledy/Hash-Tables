@@ -110,9 +110,9 @@ class HashTable:
             print('The given Key does not exist!')
         else:
             if prev_node is None:
-                curr_node = None
+                self.storage[index] = curr_node.next
             else:
-                prev_node.next = prev_node.next.next
+                prev_node.next = curr_node.next
 
 
     def retrieve(self, key):
