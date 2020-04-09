@@ -55,18 +55,25 @@ class HashTable:
 
         Fill this in.
         '''
+        # hash the key to create an index
+        # create a new node, to be inserted
         index = self._hash_mod(key)
         node = LinkedPair(key, value)
-
+        # ********Part 1********
         # if self.storage[index] is not None:
         #     print('Error:  The space at this index is already occupied!')
 
+        # ********Part 2********
+        # if the hashed index is occupied, add the node to the end of the Linked List
+        # else add the node at the hashed index
         if self.storage[index] is not None:
             head = self.storage[index]
 
             while head:
                 if head.next is None:
                     head.next = node
+                else:
+                    head = head.next
         else:
             self.storage[index] = node
 
@@ -79,7 +86,31 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # hash the key to create an index
+        # create a current node at hashed index
+        # create a previous node equal to None to start
+        index = self._hash_mod(key)
+        curr_node = self.storage[index]
+        prev_node = None
+
+        # iterate through linked list
+        # while the current node is not None and its key is not equal to given key
+        # previous node equals current node
+        # current node equals next node
+        while curr_node is not None and curr_node.key != key:
+            prev_node = curr_node
+            curr_node = curr_node.next
+
+        # If current node is equal to None, print a warning
+        # else: if the previous node is equal to None, current node equals None
+        #       else, overwrite pointer to current node from previous node to point at next node.
+        if curr_node is None:
+            print('The given Key does not exist!')
+        else:
+            if prev_node is None:
+                curr_node = None
+            else:
+                prev_node.next = curr_node.next
 
 
     def retrieve(self, key):
