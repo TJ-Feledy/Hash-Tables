@@ -68,12 +68,14 @@ class HashTable:
         # else add the node at the hashed index
         if self.storage[index] is not None:
             head = self.storage[index]
+            prev_node = head
 
-            while head:
-                if head.next is None:
-                    head.next = node
-                else:
-                    head = head.next
+            while head is not None:
+                prev_node = head
+                head = head.next
+            # set the previous node's next node to point to the newly created node
+            prev_node.next = node
+
         else:
             self.storage[index] = node
 
