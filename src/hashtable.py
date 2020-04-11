@@ -88,6 +88,7 @@ class HashTable:
 
         self.size += 1
 
+        # Run resize if load factor is above .7 after new item is inserted
         if (self.load_factor(self.capacity) >= 0.7) and (int(self.initCap) != int(self.capacity)):
             self.resize()
 
@@ -127,6 +128,7 @@ class HashTable:
 
             self.size -= 1
 
+            # Run resize if load factor is below .2 after item is removed
             if (self.load_factor(self.capacity) <= 0.2) and (int(self.initCap) != int(self.capacity)):
                 self.resize()
 
@@ -165,8 +167,9 @@ class HashTable:
 
         Fill this in.
         '''
-        # double the capacity
         # create new storage
+        # if load factor is above .7 double the capacity
+        # if load factor is below .2 half the capacity
         temp_storage = self.storage
         if self.load_factor(self.capacity) >= 0.7:
             self.capacity = int(self.capacity * 2)
