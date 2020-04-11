@@ -89,7 +89,6 @@ class HashTable:
         self.size += 1
 
         if (self.load_factor(self.capacity) >= 0.7) and (int(self.initCap) != int(self.capacity)):
-            print(self.load_factor(self.capacity))
             self.resize()
 
     def remove(self, key):
@@ -129,7 +128,6 @@ class HashTable:
             self.size -= 1
 
             if (self.load_factor(self.capacity) <= 0.2) and (int(self.initCap) != int(self.capacity)):
-                print(self.load_factor(self.capacity))
                 self.resize()
 
 
@@ -174,7 +172,6 @@ class HashTable:
             self.capacity = int(self.capacity * 2)
         elif self.load_factor(self.capacity) <= 0.2 and self.load_factor(self.capacity/2) < 0.7:
             self.capacity = int(self.capacity / 2)
-        print(self.capacity)
         self.storage = [None] * self.capacity
         self.size = 0
 
@@ -217,5 +214,14 @@ if __name__ == "__main__":
     print(ht.retrieve("line_1"))
     print(ht.retrieve("line_2"))
     print(ht.retrieve("line_3"))
+
+    print("")
+
+    ht.remove('line_1')
+    print(f'load factor: {ht.load_factor(ht.capacity)}, capacity: {ht.capacity}')
+    ht.remove('line_2')
+    print(f'load factor: {ht.load_factor(ht.capacity)}, capacity: {ht.capacity}')
+    ht.remove('line_3')
+    print(f'load factor: {ht.load_factor(ht.capacity)}, capacity: {ht.capacity}')
 
     print("")
