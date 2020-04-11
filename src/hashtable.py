@@ -15,6 +15,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.size = 0
 
 
     def _hash(self, key):
@@ -46,7 +47,7 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         within the storage capacity of the hash table.
         '''
-        return self._hash(key) % self.capacity
+        return self._hash_djb2(key) % self.capacity
 
 
     def insert(self, key, value):
@@ -84,6 +85,7 @@ class HashTable:
             node.next = self.storage[index]
             self.storage[index] = node
 
+        self.size += 1
 
     def remove(self, key):
         '''
@@ -118,6 +120,8 @@ class HashTable:
                 self.storage[index] = curr_node.next
             else:
                 prev_node.next = curr_node.next
+
+            self.size -= 1
 
 
     def retrieve(self, key):
@@ -157,6 +161,7 @@ class HashTable:
         # double the capacity
         # create new storage
         temp_storage = self.storage
+        self.size = 0
         self.capacity *= 2
         self.storage = [None] * self.capacity
 
@@ -169,6 +174,8 @@ class HashTable:
                 self.insert(curr_item.key, curr_item.value)
                 curr_item = curr_item.next
 
+    def load_factor(self):
+        return self.size/self.capacity
 
 if __name__ == "__main__":
     ht = HashTable(2)
@@ -186,10 +193,12 @@ if __name__ == "__main__":
 
     # Test resizing
     old_capacity = len(ht.storage)
+    old_load = ht.load_factor()
     ht.resize()
     new_capacity = len(ht.storage)
+    new_load = ht.load_factor()
 
-    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+    print(f"\nResized from {old_capacity}, load factor {old_load} to {new_capacity}, load factor {new_load}.\n")
 
     # Test if data intact after resizing
     print(ht.retrieve("line_1"))
