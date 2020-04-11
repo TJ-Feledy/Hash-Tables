@@ -13,7 +13,8 @@ class HashTable:
     that accepts string keys
     '''
     def __init__(self, capacity):
-        self.capacity = capacity  # Number of buckets in the hash table
+        self.initCap = capacity
+        self.capacity = int(capacity)  # Number of buckets in the hash table
         self.storage = [None] * capacity
         self.size = 0
 
@@ -47,7 +48,7 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         within the storage capacity of the hash table.
         '''
-        return self._hash_djb2(key) % self.capacity
+        return int(self._hash_djb2(key) % self.capacity)
 
 
     def insert(self, key, value):
@@ -87,6 +88,10 @@ class HashTable:
 
         self.size += 1
 
+        if (self.load_factor(self.capacity) >= 0.7) and (int(self.initCap) != int(self.capacity)):
+            print(self.load_factor(self.capacity))
+            self.resize()
+
     def remove(self, key):
         '''
         Remove the value stored with the given key.
@@ -122,6 +127,10 @@ class HashTable:
                 prev_node.next = curr_node.next
 
             self.size -= 1
+
+            if (self.load_factor(self.capacity) <= 0.2) and (int(self.initCap) != int(self.capacity)):
+                print(self.load_factor(self.capacity))
+                self.resize()
 
 
     def retrieve(self, key):
@@ -161,9 +170,13 @@ class HashTable:
         # double the capacity
         # create new storage
         temp_storage = self.storage
-        self.size = 0
-        self.capacity *= 2
+        if self.load_factor(self.capacity) >= 0.7:
+            self.capacity = int(self.capacity * 2)
+        elif self.load_factor(self.capacity) <= 0.2 and self.load_factor(self.capacity/2) < 0.7:
+            self.capacity = int(self.capacity / 2)
+        print(self.capacity)
         self.storage = [None] * self.capacity
+        self.size = 0
 
         # iterate through storage to copy it to new storage
         # for each index in storage
@@ -174,8 +187,8 @@ class HashTable:
                 self.insert(curr_item.key, curr_item.value)
                 curr_item = curr_item.next
 
-    def load_factor(self):
-        return self.size/self.capacity
+    def load_factor(self, capacity):
+        return self.size/capacity
 
 if __name__ == "__main__":
     ht = HashTable(2)
@@ -193,10 +206,10 @@ if __name__ == "__main__":
 
     # Test resizing
     old_capacity = len(ht.storage)
-    old_load = ht.load_factor()
+    old_load = ht.load_factor(ht.capacity)
     ht.resize()
     new_capacity = len(ht.storage)
-    new_load = ht.load_factor()
+    new_load = ht.load_factor(ht.capacity)
 
     print(f"\nResized from {old_capacity}, load factor {old_load} to {new_capacity}, load factor {new_load}.\n")
 
